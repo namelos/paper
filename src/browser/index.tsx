@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from 'react-dom'
+import { hydrate } from 'react-dom'
 import ApolloClient from 'apollo-client'
 import { ApolloProvider } from 'react-apollo'
 import { BrowserRouter } from 'react-router-dom'
@@ -28,7 +28,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache().restore(window['__APOLLO_STATE__'])
 })
 
-render(<ApolloProvider client={client}>
+hydrate(<ApolloProvider client={client}>
   <BrowserRouter>
     <App />
   </BrowserRouter>

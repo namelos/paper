@@ -2,19 +2,18 @@ import React from 'react'
 import { Route } from 'react-router'
 import { hot } from 'react-hot-loader'
 import { Hello } from 'common/components/Hello'
-import { About } from 'common/components/About'
 import { Link } from 'react-router-dom'
 import Counter from './components/Counter'
+import { Notes } from './layouts/Notes'
 
 export const AppComp = () => <div>
   <ul>
     <li><Link to="/">Home</Link></li>
-    <li><Link to="/about">About</Link></li>
+    <li><Link to="/notes">Notes</Link></li>
   </ul>
 
-  <Counter />
   <Route exact path="/" component={Hello} />
-  <Route path="/about" component={About} />
+  <Route path="/notes" component={Notes} />
 </div>
 
 export const App = hot(module)(AppComp)
