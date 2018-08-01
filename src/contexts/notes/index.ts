@@ -10,8 +10,7 @@ export class NotesContext {
   ) {}
 
   async insert(text) {
-    const note = new Note()
-    note.text = text
+    const note = new Note(text)
     await this.noteRepository.insert(note)
     return note
   }
