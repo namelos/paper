@@ -7,12 +7,12 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import { App } from 'common/App'
 import { Html } from 'common/components/Html'
-import { SchemaService } from './SchemaService'
+import { SchemaService } from 'bootstrap/SchemaService'
 import { StaticRouter } from 'react-router-dom'
 import { Request } from 'express'
 
 @Controller()
-export class IndexController {
+export class RenderController {
   constructor(private schemaService: SchemaService) {}
 
   @Get('*')

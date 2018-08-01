@@ -2,8 +2,8 @@ import { Service } from 'typedi'
 import express, { Express } from 'express'
 import { useExpressServer } from 'routing-controllers'
 import { ApolloServer } from 'apollo-server-express'
-import { IndexController } from './IndexController'
-import { SchemaService } from './SchemaService'
+import { RenderController } from 'endpoint/RenderController'
+import { SchemaService } from 'bootstrap/SchemaService'
 
 @Service()
 export class ServerService {
@@ -15,7 +15,7 @@ export class ServerService {
 
   addControllers() {
     useExpressServer(this.app, {
-      controllers: [IndexController]
+      controllers: [RenderController]
     })
   }
 
@@ -23,9 +23,9 @@ export class ServerService {
     new ApolloServer({ schema: this.schemaService.schema }).applyMiddleware({ app: this.app, path: '/api' })
   }
 
-  listen(port) {
+  listen() {
     this.addGraphQLEndpoint()
     this.addControllers()
-    this.app.listen(port, () => console.log(`🚀 Server ready at http://localhost:4000`))
+    this.app.listen(4000, () => console.log(`🚀 Server ready at http://localhost:4000`))
   }
 }

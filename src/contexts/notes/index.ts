@@ -1,17 +1,22 @@
 import { Service } from 'typedi'
-import uuid from 'uuid'
+import { Note } from './Note'
+import { InjectRepository } from 'typeorm-typedi-extensions'
+import { Repository } from 'typeorm'
 
 @Service()
 export class NotesContext {
-  private notes: Array<Note> = []
+  constructor(
+    @InjectRepository(Note) private noteRepository: Repository<Note>
+  ) {}
 
-  insert(text) {
-    const note = { id: uuid(), text }
-    this.notes.push(note)
+  async insert(text) {
+    const note = new Note()
+    note.text = text
+    await this.noteRepository.insert(note)
     return note
   }
 
-  all() {
-    return this.notes
+  async all() {
+    return await this.noteRepository.find()
   }
 }
