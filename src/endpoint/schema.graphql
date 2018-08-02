@@ -5,6 +5,11 @@ type Query {
 
 type Mutation {
   addNote(text: String!): Note
+  createAccount(username: String!, password: String!): Token
+}
+
+type Token {
+  token: String!
 }
 
 type Note {

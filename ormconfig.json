@@ -5,6 +5,7 @@
   "username": "postgres",
   "password": "postgres",
   "database": "paper",
+  "synchronize": true,
   "cli": {
     "migrationsDir": "src/migrations"
   }
