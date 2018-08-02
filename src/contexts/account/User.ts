@@ -13,7 +13,7 @@ export class User {
   @Column()
   username: string
 
-  @OneToOne(type => Credential, credential => credential.user)
+  @OneToOne(type => Credential, credential => credential.user, { eager: true })
   @JoinColumn()
   credential: Credential
 }

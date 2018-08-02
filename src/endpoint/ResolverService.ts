@@ -1,10 +1,13 @@
 import { Service } from 'typedi'
 import { NotesContext } from 'contexts/notes'
 import { AccountContext } from 'contexts/account'
+import { User } from '../contexts/account/User'
+import { TokenService } from '../libs/TokenService'
 
 @Service()
 export class ResolverService {
   constructor(
+    private tokenService: TokenService,
     private notesContext: NotesContext,
     private accountContext: AccountContext
   ) {}
@@ -18,9 +21,6 @@ export class ResolverService {
         },
         notes() {
           return that.notesContext.all()
-        },
-        users() {
-          return that.accountContext.getUsers()
         }
       },
       Mutation: {
@@ -28,12 +28,14 @@ export class ResolverService {
           return that.notesContext.insert(text)
         },
         async createAccount(_, { username, password }) {
-          await that.accountContext.createAccount(username, password)
-          return {
-            token: '123321'
-          }
+          const user = await that.accountContext.createAccount(username, password)
+          return await that.generateToken(user)
         }
       }
     }
+  }
+
+  private async generateToken(user: User) {
+    return { token: await this.tokenService.sign(user.id) }
   }
 }
