@@ -1,15 +1,17 @@
 type Query {
   hello: String!
   notes: [Note]
+  me: User
 }
 
 type Mutation {
   addNote(text: String!): Note
-  createAccount(username: String!, password: String!): Token
+  register(username: String!, password: String!): String
+  login(username: String!, password: String!): String
 }
 
-type Token {
-  token: String!
+type User {
+  username: String!
 }
 
 type Note {

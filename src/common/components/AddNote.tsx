@@ -1,5 +1,5 @@
-import React from 'react'
 import gql from 'graphql-tag'
+import React from 'react'
 import { Mutation } from 'react-apollo'
 
 const mutation = gql`
@@ -15,7 +15,7 @@ export const AddNote = () => {
 
   return <Mutation mutation={mutation}>
     {(addNote, { data }) => {
-      function handleSubmit(e) {
+      async function handleSubmit(e) {
         e.preventDefault()
         if (!input.value) return
         addNote({ variables: { text: input.value } })

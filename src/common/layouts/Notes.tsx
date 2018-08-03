@@ -12,14 +12,12 @@ const query = gql`
   }
 `
 export const Notes = () => <Query query={query}>
-  {({ loading, data }) => {
-    console.log(data)
-    return loading ? <p>loading</p> : <div>
+  {({ loading, data }) =>
+    loading ? <p>loading</p> : <div>
       <ul>
         {data && data.notes.map(note =>
           <li key={note.id}>{note.text}</li>)}
       </ul>
       <AddNote />
-    </div>
-  } }
+    </div>}
 </Query>

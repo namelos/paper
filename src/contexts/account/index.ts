@@ -22,6 +22,29 @@ export class AccountContext {
 
     const user = new User({ username, credential })
     await this.userRepository.insert(user)
-    return user
+    return this.generateToken(user)
+  }
+
+  async login(username, password) {
+    const user = await this.userRepository.findOne({ username })
+    if(!user) return null
+
+    const match = await this.encryptionService.compare(password, user.credential.passwordDigest)
+    if(!match) return null
+
+    return this.generateToken(user)
+  }
+
+  async getUserByToken(token) {
+    const id = await this.verifyToken(token)
+    return await this.userRepository.findOne(id)
+  }
+
+  private async verifyToken(token) {
+    return await this.tokenService.verify(token)
+  }
+
+  private async generateToken(user: User) {
+    return await this.tokenService.sign(user.id)
   }
 }

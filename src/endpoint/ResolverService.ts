@@ -1,8 +1,7 @@
-import { Service } from 'typedi'
-import { NotesContext } from 'contexts/notes'
 import { AccountContext } from 'contexts/account'
-import { User } from '../contexts/account/User'
-import { TokenService } from '../libs/TokenService'
+import { NotesContext } from 'contexts/notes'
+import { TokenService } from 'libs/TokenService'
+import { Service } from 'typedi'
 
 @Service()
 export class ResolverService {
@@ -14,6 +13,7 @@ export class ResolverService {
 
   get() {
     const that = this
+
     return {
       Query: {
         hello() {
@@ -21,21 +21,35 @@ export class ResolverService {
         },
         notes() {
           return that.notesContext.all()
+        },
+        async me(_, {}, context) {
+          return await that.verifyUser(context)
         }
       },
       Mutation: {
         addNote(_, { text }) {
           return that.notesContext.insert(text)
         },
-        async createAccount(_, { username, password }) {
-          const user = await that.accountContext.createAccount(username, password)
-          return await that.generateToken(user)
+        async register(_, { username, password }, context) {
+          const token = await that.accountContext.createAccount(username, password)
+          return that.signUser(context, token)
+        },
+        async login(_, { username, password }, context) {
+          const token = await this.accountContext.login(username, password)
+          return that.signUser(context, token)
         }
       }
     }
   }
 
-  private async generateToken(user: User) {
-    return { token: await this.tokenService.sign(user.id) }
+  private signUser(context, token) {
+    context.res.cookie('authorization', token)
+    return token
+  }
+
+  private async verifyUser(context) {
+    if (!context || !context.req) return null
+    const token = context.req.cookies.authorization
+    return this.accountContext.getUserByToken(token)
   }
 }

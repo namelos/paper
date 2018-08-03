@@ -10,6 +10,6 @@ export class EncryptionService {
   }
 
   async compare(secret, hash) {
-    return await bcrypt.compare(hash)
+    return await bcrypt.compare(secret, hash)
   }
 }
