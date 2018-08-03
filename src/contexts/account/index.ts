@@ -1,10 +1,10 @@
+import { EncryptionService } from 'contexts/utils/EncryptionService'
+import { TokenService } from 'contexts/utils/TokenService'
 import { Service } from 'typedi'
-import { InjectRepository } from 'typeorm-typedi-extensions'
 import { Repository } from 'typeorm'
-import { User } from './User'
+import { InjectRepository } from 'typeorm-typedi-extensions'
 import { Credential } from './Credential'
-import { EncryptionService } from 'libs/EncryptionService'
-import { TokenService } from 'libs/TokenService'
+import { User } from './User'
 
 @Service()
 export class AccountContext {

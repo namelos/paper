@@ -1,17 +1,17 @@
+import { gql, makeExecutableSchema } from 'apollo-server-express'
 import { AccountContext } from 'contexts/account'
 import { NotesContext } from 'contexts/notes'
-import { TokenService } from 'libs/TokenService'
+import typeDefs from 'endpoint/schema.graphql'
 import { Service } from 'typedi'
 
 @Service()
-export class ResolverService {
+export class QLService {
   constructor(
-    private tokenService: TokenService,
     private notesContext: NotesContext,
     private accountContext: AccountContext
   ) {}
 
-  get() {
+  get resolvers() {
     const that = this
 
     return {
@@ -40,6 +40,10 @@ export class ResolverService {
         }
       }
     }
+  }
+
+  get schema() {
+    return makeExecutableSchema({ typeDefs: gql(typeDefs), resolvers: this.resolvers })
   }
 
   private signUser(context, token) {
