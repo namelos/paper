@@ -11,34 +11,34 @@ export class QLService {
     private accountContext: AccountContext
   ) {}
 
+  get Query() {
+    return {
+      hello: () => 'world',
+      notes: () => this.notesContext.all(),
+      me: async (_, {}, context) => await this.verifyUser(context)
+    }
+  }
+
+  get Mutation() {
+    return {
+      addNote: (_, { text }) => this.notesContext.insert(text),
+      register: async (_, { username, password }, context) => {
+        const token = await this.accountContext.createAccount(username, password)
+        return this.signUser(context, token)
+      },
+      login: async (_, { username, password }, context) => {
+        const token = await this.accountContext.login(username, password)
+        return this.signUser(context, token)
+      }
+    }
+  }
+
   get resolvers() {
     const that = this
 
     return {
-      Query: {
-        hello() {
-          return 'world'
-        },
-        notes() {
-          return that.notesContext.all()
-        },
-        async me(_, {}, context) {
-          return await that.verifyUser(context)
-        }
-      },
-      Mutation: {
-        addNote(_, { text }) {
-          return that.notesContext.insert(text)
-        },
-        async register(_, { username, password }, context) {
-          const token = await that.accountContext.createAccount(username, password)
-          return that.signUser(context, token)
-        },
-        async login(_, { username, password }, context) {
-          const token = await this.accountContext.login(username, password)
-          return that.signUser(context, token)
-        }
-      }
+      Query: {...this.Query},
+      Mutation: {...this.Mutation}
     }
   }
 
