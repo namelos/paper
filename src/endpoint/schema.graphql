@@ -1,6 +1,7 @@
 type Query {
   hello: String!
   notes: [Note]
+  posts: [Post]
   me: User
 }
 
@@ -8,6 +9,7 @@ type Mutation {
   addNote(text: String!): Note
   register(username: String!, password: String!): String
   login(username: String!, password: String!): String
+  createPost(title: String, content: String!): Post
 }
 
 type User {
@@ -17,4 +19,11 @@ type User {
 type Note {
   id: ID!
   text: String!
+}
+
+type Post {
+  id: ID!
+  title: String!
+  content: String!
+  user: User!
 }

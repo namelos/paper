@@ -1,7 +1,7 @@
 import React from 'react'
 import gql from 'graphql-tag'
 import { Query } from 'react-apollo'
-import { AddNote } from 'common/components/AddNote'
+import { AddNote } from 'common/components/notes/AddNote'
 
 const query = gql`
   query Notes {

@@ -15,6 +15,10 @@ export class AccountContext {
     private tokenService: TokenService
   ) {}
 
+  async get(id) {
+    return await this.userRepository.findOne(id)
+  }
+
   async createAccount(username, password) {
     const passwordDigest = await this.encryptionService.hash(password)
     const credential = new Credential({ passwordDigest })
@@ -37,7 +41,7 @@ export class AccountContext {
 
   async getUserByToken(token) {
     const id = await this.verifyToken(token)
-    return await this.userRepository.findOne(id)
+    return await this.get(id)
   }
 
   private async verifyToken(token) {

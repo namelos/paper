@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { User } from './User'
 
 @Entity()
@@ -13,6 +13,7 @@ export class Credential {
   @Column()
   passwordDigest: string
 
-  @OneToOne(type => User, user => user.credential)
+  @OneToOne(type => User, user => user.credential, { eager: true })
+  @JoinColumn()
   user: User
 }

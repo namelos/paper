@@ -1,5 +1,6 @@
 import { gql, makeExecutableSchema } from 'apollo-server-express'
 import { AccountContext } from 'contexts/account'
+import { BlogContext } from 'contexts/blog'
 import { NotesContext } from 'contexts/notes'
 import typeDefs from 'endpoint/schema.graphql'
 import { Service } from 'typedi'
@@ -8,13 +9,15 @@ import { Service } from 'typedi'
 export class QLService {
   constructor(
     private notesContext: NotesContext,
-    private accountContext: AccountContext
+    private accountContext: AccountContext,
+    private blogContext: BlogContext
   ) {}
 
   get Query() {
     return {
       hello: () => 'world',
       notes: () => this.notesContext.all(),
+      posts: () => this.blogContext.posts(),
       me: async (_, {}, context) => await this.verifyUser(context)
     }
   }
@@ -29,6 +32,13 @@ export class QLService {
       login: async (_, { username, password }, context) => {
         const token = await this.accountContext.login(username, password)
         return this.signUser(context, token)
+      },
+      createPost: async (_, { title, content }, context) => {
+        const user = await this.verifyUser(context)
+        if (user) {
+          return this.blogContext.createPost({ title, content, user })
+        }
+        return null
       }
     }
   }

@@ -1,6 +1,7 @@
 import { Hello } from 'common/components/Hello'
 import { Login } from 'common/layouts/Login'
 import { Me } from 'common/layouts/Me'
+import { Posts } from 'common/layouts/Posts'
 import React from 'react'
 import { hot } from 'react-hot-loader'
 import { Route } from 'react-router'
@@ -15,6 +16,7 @@ export const AppComp = () => <div>
     <li><Link to="/registration">Registration</Link></li>
     <li><Link to="/login">Login</Link></li>
     <li><Link to="/me">Me</Link></li>
+    <li><Link to="/posts">Posts</Link></li>
   </ul>
 
   <Route exact path="/" component={Hello} />
@@ -22,6 +24,7 @@ export const AppComp = () => <div>
   <Route path="/registration" component={Registration} />
   <Route path="/login" component={Login} />
   <Route path="/me" component={Me} />
+  <Route path="/posts" component={Posts} />
 </div>
 
 export const App = hot(module)(AppComp)

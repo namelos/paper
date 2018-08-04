@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { Post } from 'contexts/blog/Post'
+import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
 import { Credential } from './Credential'
 
 @Entity()
@@ -13,7 +14,9 @@ export class User {
   @Column()
   username: string
 
-  @OneToOne(type => Credential, credential => credential.user, { eager: true })
-  @JoinColumn()
+  @OneToOne(type => Credential, credential => credential.user)
   credential: Credential
+
+  @OneToMany(type => Post, post => post.user)
+  post: Array<Post>
 }

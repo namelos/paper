@@ -1,6 +1,7 @@
 import { ApolloServer } from 'apollo-server-express'
 import { Credential } from 'contexts/account/Credential'
 import { User } from 'contexts/account/User'
+import { Post } from 'contexts/blog/Post'
 import { Note } from 'contexts/notes/Note'
 import cookieParser from 'cookie-parser'
 import { QLService } from 'endpoint/QLService'
@@ -19,7 +20,7 @@ export async function bootstrap() {
   typeormUseContainer(Container)
 
   try {
-    await createConnection({ ...config, entities: [Note, User, Credential] })
+    await createConnection({ ...config, entities: [Note, User, Credential, Post] })
   } catch (e) {
     console.log('connect failed', e)
   }
