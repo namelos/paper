@@ -4,6 +4,9 @@ const common = require('./webpack.config.comon')
 
 module.exports = merge(common, {
   target: 'node',
+  node: {
+    __dirname: false
+  },
   entry: './src/server.tsx',
   output: {
     filename: 'server.js'

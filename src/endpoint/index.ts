@@ -11,7 +11,7 @@ import 'reflect-metadata'
 import { useContainer as controllerUseContainer, useExpressServer } from 'routing-controllers'
 import { Container } from 'typedi'
 import { createConnection, useContainer as typeormUseContainer } from 'typeorm'
-import config from '../../ormConfig.json'
+import pgConnectionString from 'pg-connection-string'
 
 export async function bootstrap() {
   const app = express()
@@ -20,7 +20,34 @@ export async function bootstrap() {
   typeormUseContainer(Container)
 
   try {
-    await createConnection({ ...config, entities: [Note, User, Credential, Post] })
+    if (process.env.NODE_ENV !== 'production') {
+      await createConnection({
+        type: 'postgres',
+        host: 'localhost',
+        port: 5432,
+        username: 'postgres',
+        password: 'postgres',
+        database: 'paper',
+        synchronize: true,
+        entities: [Note, User, Credential, Post]
+      })
+    } else {
+      const options = pgConnectionString.parse(process.env.DATABASE_URL)
+
+      await createConnection({
+        type: 'postgres',
+        host: options.host,
+        port: options.port,
+        username: options.user,
+        password: options.password,
+        database: options.database,
+        synchronize: true,
+        entities: [Note, User, Credential, Post],
+        extra: {
+          ssl: true
+        }
+      })
+    }
   } catch (e) {
     console.log('connect failed', e)
   }
@@ -31,6 +58,8 @@ export async function bootstrap() {
     schema: Container.get(QLService).schema,
     context: ({ req, res }) => ({ req, res })
   }).applyMiddleware({ app, path: '/api' })
+
+  app.use(express.static(__dirname))
 
   useExpressServer(app, { controllers: [RenderController] })
 

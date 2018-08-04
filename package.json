@@ -6,11 +6,13 @@
   "scripts": {
     "server": "webpack -w --config webpack.config.server.dev.js",
     "client": "webpack-dev-server --config webpack.config.client.dev.js",
+    "prod": "npm run server-prod && npm run client-prod",
     "server-prod": "webpack --config webpack.config.server.prod.js",
     "client-prod": "webpack --config webpack.config.client.prod.js",
     "watch-query": "apollo codegen:generate src/common/queryTypes.ts --outputFlat --queries src/common/**/*.tsx --schema src/endpoint/schema.graphql --target typescript --watch",
     "build-query": "apollo codegen:generate src/common/queryTypes.ts --outputFlat --queries src/common/**/*.tsx --schema src/endpoint/schema.graphql --target typescript",
     "migrate": "typeorm migration:run",
+    "postinstall": "npm run prod",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -60,6 +62,7 @@
     "koa-router": "^7.4.0",
     "node-fetch": "^2.2.0",
     "pg": "^7.4.3",
+    "pg-connection-string": "^2.0.0",
     "pg-native": "^3.0.0",
     "react": "^16.4.1",
     "react-apollo": "^2.1.9",
