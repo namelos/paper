@@ -1,16 +1,10 @@
 import { Post } from 'contexts/blog/Post'
-import { Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { EntityBase } from 'contexts/utils/EntityBase'
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm'
 import { Credential } from './Credential'
 
 @Entity()
-export class User {
-  constructor(props?: Partial<User>) {
-    Object.assign(this, props)
-  }
-
-  @PrimaryGeneratedColumn('uuid')
-  id: string
-
+export class User extends EntityBase<User> {
   @Column()
   username: string
 

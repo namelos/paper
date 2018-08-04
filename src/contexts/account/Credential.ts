@@ -1,15 +1,9 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm'
+import { EntityBase } from 'contexts/utils/EntityBase'
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 import { User } from './User'
 
 @Entity()
-export class Credential {
-  constructor(props?: Partial<Credential>) {
-    Object.assign(this, props)
-  }
-
-  @PrimaryGeneratedColumn('uuid')
-  id: string
-
+export class Credential extends EntityBase<Credential> {
   @Column()
   passwordDigest: string
 
