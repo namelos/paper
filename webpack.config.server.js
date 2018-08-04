@@ -1,5 +1,4 @@
 const merge = require('webpack-merge')
-const NodemonPlugin = require('nodemon-webpack-plugin')
 const common = require('./webpack.config.comon')
 
 module.exports = merge(common, {
