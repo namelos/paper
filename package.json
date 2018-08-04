@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "webpack -w --config webpack.config.server.js",
-    "client": "webpack-dev-server --config webpack.config.client.js",
+    "server": "webpack -w --config webpack.config.server.dev.js",
+    "client": "webpack-dev-server --config webpack.config.client.dev.js",
+    "server-prod": "webpack --config webpack.config.server.prod.js",
+    "client-prod": "webpack --config webpack.config.client.prod.js",
     "watch-query": "apollo codegen:generate src/common/queryTypes.ts --outputFlat --queries src/common/**/*.tsx --schema src/endpoint/schema.graphql --target typescript --watch",
     "build-query": "apollo codegen:generate src/common/queryTypes.ts --outputFlat --queries src/common/**/*.tsx --schema src/endpoint/schema.graphql --target typescript",
     "migrate": "typeorm migration:run",
@@ -29,6 +31,7 @@
     "webpack-dev-middleware": "^3.1.3",
     "webpack-dev-server": "^3.1.5",
     "webpack-graphql-loader": "^1.0.0",
+    "webpack-merge": "^4.1.4",
     "webpack-node-externals": "^1.7.2"
   },
   "dependencies": {

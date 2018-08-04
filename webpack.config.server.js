@@ -1,16 +1,12 @@
-const path = require('path')
+const merge = require('webpack-merge')
 const NodemonPlugin = require('nodemon-webpack-plugin')
+const common = require('./webpack.config.comon')
 
-module.exports = {
-  mode: 'development',
+module.exports = merge(common, {
   target: 'node',
   entry: './src/server.tsx',
   output: {
     filename: 'server.js'
-  },
-  resolve: {
-    extensions: ['.js', '.mjs', '.jsx', '.ts', '.tsx', '.json'],
-    modules: ['node_modules', path.resolve(__dirname, 'src')]
   },
   module: {
     rules: [
@@ -22,19 +18,7 @@ module.exports = {
         test: /\.mjs$/,
         include: /node_modules/,
         type: "javascript/auto",
-      },
-      {
-        test: /\.(graphql([es])?|gql)$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'webpack-graphql-loader'
-          }
-        ]
       }
     ]
-  },
-  plugins: [
-    new NodemonPlugin()
-  ]
-}
+  }
+})
