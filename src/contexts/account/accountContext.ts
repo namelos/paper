@@ -22,12 +22,12 @@ export class AccountContext {
   async createAccount(username, password) {
     const passwordDigest = await this.encryptionService.hash(password)
 
-    const user = new User({ username })
-    await this.userRepository.insert(user)
+    const user = new User({
+      username,
+      credential: new Credential({ passwordDigest })
+    })
 
-    const credential = new Credential({ passwordDigest, user })
-    await this.credentialRepository.insert(credential)
-
+    await this.userRepository.save(user)
     return this.generateToken(user)
   }
 

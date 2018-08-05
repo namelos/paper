@@ -9,6 +9,6 @@ export class Card extends EntityBase<Card> {
 
   @ManyToOne(type => BoardColumn, boardColumn => boardColumn.cards)
   @JoinColumn()
-  boardColumns: BoardColumn
+  boardColumn: BoardColumn
 }
 

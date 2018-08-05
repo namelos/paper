@@ -9,12 +9,12 @@ export class User extends EntityBase<User> {
   @Column()
   username: string
 
-  @OneToOne(type => Credential, credential => credential.user)
+  @OneToOne(type => Credential, credential => credential.user, { cascade: true })
   credential: Credential
 
   @OneToMany(type => Post, post => post.user)
   post: Array<Post>
 
   @OneToMany(type => Board, board => board.user)
-  boards: Array<Board>
+  boards: Promise<Array<Board>>
 }

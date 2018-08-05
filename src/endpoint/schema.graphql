@@ -12,12 +12,13 @@ type Mutation {
   login(username: String!, password: String!): String
   createPost(title: String!, content: String!): Post
   createBoard(name: String!): Board
-  createColumn(name: String!, boardId: ID!): BoardColumn
+  createBoardColumn(name: String!, boardId: ID!): BoardColumn
   createCard(name: String!, boardColumnId: ID!): Card
 }
 
 type User {
   username: String!
+  boards: [Board]
 }
 
 type Note {

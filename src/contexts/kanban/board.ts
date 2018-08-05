@@ -10,8 +10,8 @@ export class Board extends EntityBase<Board> {
 
   @ManyToOne(type => User, user => user.post, { eager: true })
   @JoinColumn()
-  user: User
+  user: Promise<User>
 
-  @OneToMany(type => BoardColumn, boardColumn => boardColumn.board, { eager: true })
-  boardColumns: Array<BoardColumn>
+  @OneToMany(type => BoardColumn, boardColumn => boardColumn.board, { cascade: true })
+  boardColumns: Promise<BoardColumn[]>
 }
