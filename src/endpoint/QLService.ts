@@ -1,7 +1,7 @@
 import { gql, makeExecutableSchema } from 'apollo-server-express'
-import { AccountContext } from 'contexts/account'
-import { BlogContext } from 'contexts/blog'
-import { NotesContext } from 'contexts/notes'
+import { AccountContext } from 'contexts/account/accountContext'
+import { BlogContext } from 'contexts/blog/blogContext'
+import { NotesContext } from 'contexts/notes/notesContext'
 import typeDefs from 'endpoint/schema.graphql'
 import { Service } from 'typedi'
 
