@@ -31,6 +31,11 @@ export class AccountContext {
     return this.generateToken(user)
   }
 
+  async findByUserRelation(user: User, relation: string) {
+    const u = await this.userRepository.findOne(user.id, { relations: [relation] });
+    return u[relation]
+  }
+
   async login(username, password) {
     const user = await this.userRepository.findOne({ username })
     if(!user) return null

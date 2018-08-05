@@ -8,7 +8,7 @@
       "url": "http://localhost:4000/api",
       "options" : {
         "headers": {
-          "Cookie": "authorization=eyJhbGciOiJIUzI1NiJ9.NTA2NjhjYTktYjQ2OC00YTUyLTk0YzItNWE3MmNhYWQ3ZDc1.0h39C9RIRqGf3iAGnp-nI8jLSKvH2uiGg2MY43aWewU"
+          "Cookie": "authorization=eyJhbGciOiJIUzI1NiJ9.ZjY3NWI5MzctMTNhYy00NjBkLTkzZTYtNmYwNjI0MzJkOWU3.AwQqjqQuK3DcJVmm-K4FOXujj77ymAMbNMVx1mp_AA8"
         }
       }
     }

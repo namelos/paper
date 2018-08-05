@@ -1,6 +1,7 @@
 import { gql, makeExecutableSchema } from 'apollo-server-express'
 import { AccountContext } from 'contexts/account/accountContext'
 import { BlogContext } from 'contexts/blog/blogContext'
+import { KanbanContext } from 'contexts/kanban/kanbanContext'
 import { NotesContext } from 'contexts/notes/notesContext'
 import typeDefs from 'endpoint/schema.graphql'
 import { Service } from 'typedi'
@@ -10,7 +11,8 @@ export class QLService {
   constructor(
     private notesContext: NotesContext,
     private accountContext: AccountContext,
-    private blogContext: BlogContext
+    private blogContext: BlogContext,
+    private kanbanContext: KanbanContext
   ) {}
 
   get Query() {
@@ -18,6 +20,10 @@ export class QLService {
       hello: () => 'world',
       notes: () => this.notesContext.all(),
       posts: () => this.blogContext.posts(),
+      boards: async (_, {}, context) => {
+        const user = await this.verifyUser(context)
+        return await this.kanbanContext.boards(user)
+      },
       me: async (_, {}, context) => await this.verifyUser(context)
     }
   }
@@ -37,6 +43,13 @@ export class QLService {
         const user = await this.verifyUser(context)
         if (user) {
           return this.blogContext.createPost({ title, content, user })
+        }
+        return null
+      },
+      createBoard: async (_, { name }, context) => {
+        const user = await this.verifyUser(context)
+        if (user) {
+          return await this.kanbanContext.createBoard({ name, user })
         }
         return null
       }

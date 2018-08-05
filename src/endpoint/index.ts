@@ -2,6 +2,9 @@ import { ApolloServer } from 'apollo-server-express'
 import { Credential } from 'contexts/account/Credential'
 import { User } from 'contexts/account/User'
 import { Post } from 'contexts/blog/Post'
+import { Board } from 'contexts/kanban/board'
+import { BoardColumn } from 'contexts/kanban/boardColumn'
+import { Card } from 'contexts/kanban/card'
 import { Note } from 'contexts/notes/Note'
 import cookieParser from 'cookie-parser'
 import { QLService } from 'endpoint/QLService'
@@ -20,6 +23,8 @@ export async function bootstrap() {
   typeormUseContainer(Container)
 
   try {
+    const entities = [Note, User, Credential, Post, Board, BoardColumn, Card]
+
     if (process.env.NODE_ENV !== 'production') {
       await createConnection({
         type: 'postgres',
@@ -29,7 +34,7 @@ export async function bootstrap() {
         password: 'postgres',
         database: 'paper',
         synchronize: true,
-        entities: [Note, User, Credential, Post]
+        entities
       })
     } else {
       const options = pgConnectionString.parse(process.env.DATABASE_URL)
@@ -42,7 +47,7 @@ export async function bootstrap() {
         password: options.password,
         database: options.database,
         synchronize: true,
-        entities: [Note, User, Credential, Post],
+        entities,
         extra: {
           ssl: true
         }

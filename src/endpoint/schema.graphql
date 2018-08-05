@@ -3,13 +3,17 @@ type Query {
   notes: [Note]
   posts: [Post]
   me: User
+  boards: [Board]
 }
 
 type Mutation {
   addNote(text: String!): Note
   register(username: String!, password: String!): String
   login(username: String!, password: String!): String
-  createPost(title: String, content: String!): Post
+  createPost(title: String!, content: String!): Post
+  createBoard(name: String!): Board
+  createColumn(name: String!, boardId: ID!): BoardColumn
+  createCard(name: String!, boardColumnId: ID!): Card
 }
 
 type User {
@@ -26,4 +30,22 @@ type Post {
   title: String!
   content: String!
   user: User!
+}
+
+type Board {
+  id: ID!
+  name: String!
+  user: User!
+  boardColumns: [BoardColumn]
+}
+
+type BoardColumn {
+  id: ID!
+  name: String!
+  cards: [Card]
+}
+
+type Card {
+  id: ID!
+  name: String!
 }
