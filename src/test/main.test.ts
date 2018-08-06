@@ -8,6 +8,7 @@ import { Note } from 'contexts/notes/Note'
 import request from 'supertest'
 import { bootstrap } from 'endpoint'
 import { Connection, createConnection, getRepository } from 'typeorm'
+import uuid from 'uuid'
 
 it('should return response', async () => {
   const app = await bootstrap()
@@ -26,9 +27,13 @@ it('should return response', async () => {
 
 describe('data storage test', () => {
   let connection: Connection
+  let connectionName: string
 
   beforeEach(async () => {
+    connectionName = uuid()
+
     connection = await createConnection({
+      name: connectionName,
       type: 'sqljs',
       entities: [
         Note, User, Credential, Post, Board, BoardColumn, Card
@@ -46,7 +51,7 @@ describe('data storage test', () => {
   it('save and query', async () => {
     const user = new User({ username: 'John' })
 
-    const userRepository = getRepository(User)
+    const userRepository = getRepository(User, connectionName)
     await userRepository.save(user)
 
     const result = await userRepository.findOne()
@@ -54,7 +59,7 @@ describe('data storage test', () => {
   })
 
   it('test should not affect each other', async () => {
-    const userRepository = getRepository(User)
+    const userRepository = getRepository(User, connectionName)
     const result = await userRepository.findOne()
     expect(result).toBeUndefined()
   })
