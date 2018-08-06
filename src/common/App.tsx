@@ -8,16 +8,23 @@ import { Route } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Notes } from './layouts/Notes'
 import { Registration } from './layouts/Registration'
+import styled from 'styled-components'
+
+const Nav = styled.ul`
+  display: flex;
+  width: 100vw;
+  justify-content: space-around;
+`
 
 export const AppComp = () => <div>
-  <ul>
+  <Nav>
     <li><Link to="/">Home</Link></li>
     <li><Link to="/notes">Notes</Link></li>
     <li><Link to="/registration">Registration</Link></li>
     <li><Link to="/login">Login</Link></li>
     <li><Link to="/me">Me</Link></li>
     <li><Link to="/posts">Posts</Link></li>
-  </ul>
+  </Nav>
 
   <Route exact path="/" component={Hello} />
   <Route path="/notes" component={Notes} />

@@ -10,6 +10,7 @@ import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom'
 import { Controller, Get, Req, Res } from 'routing-controllers'
+import { ServerStyleSheet, StyleSheetManager } from 'styled-components'
 
 @Controller()
 export class RenderController {
@@ -28,15 +29,20 @@ export class RenderController {
 
     const context = {}
 
-    const Root = <ApolloProvider client={client}>
-      <StaticRouter location={req.url} context={context}>
-        <App />
-      </StaticRouter>
-    </ApolloProvider>
+    const sheet = new ServerStyleSheet()
+
+    const Root = <StyleSheetManager sheet={sheet.instance}>
+      <ApolloProvider client={client}>
+        <StaticRouter location={req.url} context={context}>
+          <App />
+        </StaticRouter>
+      </ApolloProvider>
+    </StyleSheetManager>
 
     await getDataFromTree(Root)
     const content = renderToString(Root)
+    const styleTags = sheet.getStyleTags()
 
-    return `<!doctype html>\n${renderToStaticMarkup(<Html content={content} client={client} />)}`
+    return `<!doctype html>\n${renderToStaticMarkup(<Html style={styleTags} content={content} client={client} />)}`
   }
 }

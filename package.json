@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "killall node && concurrently \"npm:server\" \"npm:client\" --kill-others",
+    "start": "concurrently \"npm:server\" \"npm:client\" --kill-others",
     "server": "node_modules/.bin/webpack -w --config webpack.config.server.dev.js",
     "client": "node_modules/.bin/webpack-dev-server --config webpack.config.client.dev.js",
     "prod": "npm run server-prod && npm run client-prod",
@@ -79,6 +79,7 @@
     "reflect-metadata": "^0.1.12",
     "routing-controllers": "^0.7.7",
     "sql.js": "^0.5.0",
+    "styled-components": "^3.4.1",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.7",
     "typeorm-typedi-extensions": "^0.2.1",
