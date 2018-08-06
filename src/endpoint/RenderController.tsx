@@ -1,5 +1,5 @@
 import { InMemoryCache } from 'apollo-cache-inmemory'
-import ApolloClient from 'apollo-client/ApolloClient'
+import ApolloClient from 'apollo-client'
 import { SchemaLink } from 'apollo-link-schema'
 import { App } from 'common/App'
 import { Html } from 'common/components/Html'

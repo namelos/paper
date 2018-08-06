@@ -3,7 +3,6 @@ import { AccountContext } from 'contexts/account/accountContext'
 import { BlogContext } from 'contexts/blog/blogContext'
 import { KanbanContext } from 'contexts/kanban/kanbanContext'
 import { NotesContext } from 'contexts/notes/notesContext'
-import typeDefs from 'endpoint/schema.graphql'
 import { Service } from 'typedi'
 
 @Service()
@@ -70,7 +69,64 @@ export class QLService {
   }
 
   get schema() {
-    return makeExecutableSchema({ typeDefs: gql(typeDefs), resolvers: this.resolvers })
+    return makeExecutableSchema({ typeDefs: this.typeDefs, resolvers: this.resolvers })
+  }
+
+  get typeDefs() {
+    return gql`
+      type Query {
+        hello: String!
+        notes: [Note]
+        posts: [Post]
+        me: User
+        boards: [Board]
+      }
+
+      type Mutation {
+        addNote(text: String!): Note
+        register(username: String!, password: String!): String
+        login(username: String!, password: String!): String
+        createPost(title: String!, content: String!): Post
+        createBoard(name: String!): Board
+        createBoardColumn(name: String!, boardId: ID!): BoardColumn
+        createCard(name: String!, boardColumnId: ID!): Card
+      }
+
+      type User {
+        username: String!
+        boards: [Board]
+      }
+
+      type Note {
+        id: ID!
+        text: String!
+      }
+
+      type Post {
+        id: ID!
+        title: String!
+        content: String!
+        user: User!
+      }
+
+      type Board {
+        id: ID!
+        name: String!
+        user: User!
+        boardColumns: [BoardColumn]
+      }
+
+      type BoardColumn {
+        id: ID!
+        name: String!
+        cards: [Card]
+      }
+
+      type Card {
+        id: ID!
+        name: String!
+      }
+    `
   }
 
   private signUser(context, token) {
