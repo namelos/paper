@@ -6,7 +6,7 @@ module.exports = merge(common, {
   node: {
     __dirname: false
   },
-  entry: './src/server.tsx',
+  entry: './src/server.ts',
   output: {
     filename: 'server.js'
   },
