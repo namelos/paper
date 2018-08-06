@@ -78,6 +78,7 @@
     "react-hot-loader": "^4.3.4",
     "reflect-metadata": "^0.1.12",
     "routing-controllers": "^0.7.7",
+    "sql.js": "^0.5.0",
     "typedi": "^0.8.0",
     "typeorm": "^0.2.7",
     "typeorm-typedi-extensions": "^0.2.1",
