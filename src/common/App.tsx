@@ -1,4 +1,5 @@
 import { Hello } from 'common/components/Hello'
+import { Boards } from 'common/layouts/Boards'
 import { Login } from 'common/layouts/Login'
 import { Me } from 'common/layouts/Me'
 import { Posts } from 'common/layouts/Posts'
@@ -24,6 +25,7 @@ export const AppComp = () => <div>
     <li><Link to="/login">Login</Link></li>
     <li><Link to="/me">Me</Link></li>
     <li><Link to="/posts">Posts</Link></li>
+    <li><Link to="/boards">Boards</Link></li>
   </Nav>
 
   <Route exact path="/" component={Hello} />
@@ -32,6 +34,7 @@ export const AppComp = () => <div>
   <Route path="/login" component={Login} />
   <Route path="/me" component={Me} />
   <Route path="/posts" component={Posts} />
+  <Route path="/boards" component={Boards} />
 </div>
 
 export const App = hot(module)(AppComp)

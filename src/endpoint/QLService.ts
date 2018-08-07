@@ -19,7 +19,8 @@ export class QLService {
       hello: () => 'world',
       notes: () => this.notesContext.all(),
       posts: () => this.blogContext.posts(),
-      me: async (parent, {}, context) => await this.verifyUser(context)
+      me: async (parent, {}, context) => await this.verifyUser(context),
+      board: async (_, { id }) => await this.kanbanContext.getBoard(id)
     }
   }
 
@@ -32,7 +33,7 @@ export class QLService {
       },
       login: async (_, { username, password }, context) => {
         const token = await this.accountContext.login(username, password)
-        return this.signUser(context, token)
+        if (token) return this.signUser(context, token)
       },
       createPost: async (_, { title, content }, context) => {
         const user = await this.verifyUser(context)
@@ -80,6 +81,7 @@ export class QLService {
         posts: [Post]
         me: User
         boards: [Board]
+        board(id: ID!): Board
       }
 
       type Mutation {
